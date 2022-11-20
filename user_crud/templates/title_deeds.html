@@ -1,0 +1,42 @@
+{% extends "base.html" %}   
+    
+{% block content %}
+    <p>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+    <div class="alert alert-primary" role="alert">
+        {{message}}
+      </div>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    </p>
+    
+    
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-2"></div>
+               
+            </div>
+           
+
+            <table border="1" class="table table-striped">
+                <thead><tr><th>Owner</th><th>Location</th><th>Plot Number</th><th>Area</th></tr></thead>
+                <tbody>
+                    {% for users in data %}
+                    <tr><td>{{users[0].user_name}}</td><td>{{users[1].location}}</td><td>{{users[1].plot_number}}</td><td>{{users[1].area}}</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+
+  {% endblock %}
