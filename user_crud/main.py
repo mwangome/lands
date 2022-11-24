@@ -136,7 +136,7 @@ def edit_view(id):
 def add_title_deed_view(id):
     try:
         row = TitleDeed.query.get(id)
-        return render_template('add_title_deed.html', row=row)
+        return render_template('add_title_deed.html', id=id)
     except Exception as e:
         print(e)
     
