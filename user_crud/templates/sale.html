@@ -1,0 +1,38 @@
+{% extends "base.html" %}   
+    
+{% block content %}
+        
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-6">
+                <h2>Sale Land</h2>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/users">Land Owners</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Sale Land</li>
+            </ol>
+          </nav>
+                <form method="post" action="/add">
+                    <dl>
+                        <p>
+                            <select class="form-control" name="buyer" value="" type="text" placeholder="Buyer" autocomplete="off" required>
+                                <option value="">Robin</option>
+                                <option value="">Albert</option>
+                                <option value="">Esther</option>
+                                <option value="">Ruth</option>
+                            </select>
+                        </p>
+                        <p>
+                            <input class="form-control" name="price" value="" type="number" placeholder="Price" autocomplete="off" required>
+                        </p>
+                        
+                    </dl>
+                    <p>
+                        <input class="btn btn-info" type="submit" value="Submit">
+                    </p>
+                </form>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+       
+        {% endblock %}

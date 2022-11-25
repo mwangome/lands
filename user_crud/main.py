@@ -23,6 +23,11 @@ def login():
 
     return render_template('login.html')
 
+@main.route('/sale')
+def sale():
+
+    return render_template('sale.html')
+
 @main.route('/')
 def landing():
 
