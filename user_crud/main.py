@@ -1,6 +1,6 @@
 import pymysql
 from user_crud.tables import LandOwners, TitleDeeds
-from flask import Blueprint,flash, render_template, request, redirect, jsonify
+from flask import Blueprint,flash, render_template, request, redirect, jsonify, make_response
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import TblUser, TitleDeed
 from . import db
@@ -8,6 +8,7 @@ from json import dumps
 from datetime import date
 from sqlalchemy import delete
 from flask_login import login_required, current_user
+import pdfkit
 
 main = Blueprint('main', __name__)
 
@@ -26,6 +27,11 @@ def login():
 def landing():
 
     return render_template('login.html')
+
+@main.route('/dashboard')
+def dashboard():
+    print(len(TblUser.query.all()))
+    return render_template('dashboard.html', titles=len(TitleDeed.query.all()), owners=len(TblUser.query.all()))
 
 @main.route('/add', methods=['POST'])
 @login_required
@@ -108,6 +114,7 @@ def title_deeds():
     try:
         
         users = db.session.query(TblUser, TitleDeed).join(TitleDeed, TitleDeed.owner_id == TblUser.user_id).all()
+        print(users)
         return render_template('title_deeds.html',  data=users)  
     except Exception as e:
         print(e)
@@ -136,6 +143,8 @@ def edit_view(id):
 def add_title_deed_view(id):
     try:
         row = TitleDeed.query.get(id)
+        print("row.owner_id")
+        print(row.owner_id)
         return render_template('add_title_deed.html', id=id)
     except Exception as e:
         print(e)
@@ -212,3 +221,16 @@ def alchemyencoder(obj):
     elif isinstance(obj, decimal.Decimal):
         return float(obj)
     
+@main.route('/print-title/<int:id>')  
+def pdf_template(id):
+    users = db.session.query(TblUser, TitleDeed).join(TitleDeed, TitleDeed.owner_id == TblUser.user_id, ).filter(TitleDeed.id==id) 
+    print(users[0])
+    for row in users:
+        print (row[0].user_name)
+    rendered = render_template('title-pdf.html', title=users[0])
+    pdf = pdfkit.from_string(rendered, False)
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline; filename=output.pdf'
+    
+    return response

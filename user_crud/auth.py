@@ -29,7 +29,7 @@ def login_post():
     # if the above check passes, then we know the user has the right credentials
     print("VERIFIED...................................")
     login_user(user, remember=remember)
-    return redirect(url_for('main.users'))
+    return redirect(url_for('main.dashboard'))
 
 @auth.route('/signup')
 def signup():
