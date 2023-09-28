@@ -10,16 +10,16 @@ from flask_qrcode import QRcode
 db = SQLAlchemy()
 
 def create_app():
-    app = Flask(__name__)
+    application = Flask(__name__)
 
-    app.config['SECRET_KEY'] = '9OLWxND4o83j4K4iuopO'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:' + quote_plus('Admin123#@!') + '@localhost:3306/lands'
-    QRcode(app)
-    db.init_app(app)
+    application.config['SECRET_KEY'] = '9OLWxND4o83j4K4iuopO'
+    application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:' + quote_plus('Admin123#@!') + '@localhost:3306/lands'
+    QRcode(application)
+    db.init_app(application)
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
-    login_manager.init_app(app)
+    login_manager.init_app(application)
 
     from .models import TblUser
 
@@ -30,10 +30,10 @@ def create_app():
 
     # blueprint for auth routes in our app
     from .auth import auth as auth_blueprint
-    app.register_blueprint(auth_blueprint)
+    application.register_blueprint(auth_blueprint)
 
     # blueprint for non-auth parts of app
     from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
+    application.register_blueprint(main_blueprint)
 
-    return app
+    return application

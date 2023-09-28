@@ -1,5 +1,5 @@
 import pymysql
-from user_crud.tables import LandOwners, TitleDeeds
+from .tables import LandOwners, TitleDeeds
 from flask import Blueprint,flash, render_template, request, redirect, jsonify, make_response
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import TblUser, TitleDeed
